@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/backend?useSSL=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Warsaw&autoReconnect=true&characterEncoding=UTF-8&useUnicode=yes
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  flyway:
+    baselineOnMigrate: true
+    enabled: false
+
+file:
+  logo: ${IMG_PATH:D:\pracadyplomowa\praca-front\src\assets}
+url:
+  server: ${URL_SERVER:http://localhost:4200}
