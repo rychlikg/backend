@@ -19,7 +19,8 @@ public class CompetitionDto {
 
     private String name;
     private LocalDate startDate;
-    private  LocalDate endDate;
+    private LocalDate endDate;
+    private LocalDate deadline;
     private List<ContestDto> contests;
     private  UserDto organizer;
 

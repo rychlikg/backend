@@ -26,6 +26,7 @@ public class Competition {
     private String name;
     private LocalDate startDate;
     private  LocalDate endDate;
+    private LocalDate deadline;
 
     @OneToMany(mappedBy = "competition", orphanRemoval = true, fetch = FetchType.EAGER, cascade =CascadeType.ALL)
     private List<Contest> contests;
