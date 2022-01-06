@@ -20,15 +20,19 @@ public class CompetitionService {
     private final CompetitionRepository competitionRepository;
     private final  ContestService contestService;
     private final  UserService userService;
+    private final CycleService cycleService;
 
     @Transactional
-    public Competition save(Competition competition, List<Contest> list){
+    public Competition save(Competition competition, List<Contest> list, Long cycleId){
         competition.setUser(userService.getCurrentUser());
+        if(cycleId != null){
+            competition.setCycle(cycleService.getById(cycleId));
+        }
         competitionRepository.save(competition);
         list.forEach(contest -> contest.setCompetition(competition));
         contestService.saveAll(list);
         return competition;
-    }
+}
 
     public Page<Competition> getPage(Pageable pageable){
         return competitionRepository.findAll(pageable);
@@ -65,6 +69,14 @@ public class CompetitionService {
         return competitionRepository.findByUserEmail(SecurityUtils.getCurrentUserEmail()).stream()
                 .map(Competition::getId)
                 .collect(Collectors.toList());
+    }
+
+    public  Page<Competition> getCompetitionByCurrentUser(Pageable pageable){
+        return competitionRepository.findByUserEmail(SecurityUtils.getCurrentUserEmail(),pageable);
+    }
+
+    public List<Competition> getByCycleId(Long cycleId){
+        return  competitionRepository.findByCycleId(cycleId);
     }
 
 }

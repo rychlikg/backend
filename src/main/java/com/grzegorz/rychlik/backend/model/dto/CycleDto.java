@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AssignParticipantDto {
-
-    private Long horseId;
-    private Long contestId;
-    private Long competitionId;
+public class CycleDto {
+    private Long id;
+    private String name;
 }

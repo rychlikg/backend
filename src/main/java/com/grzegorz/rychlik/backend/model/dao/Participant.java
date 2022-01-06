@@ -1,9 +1,6 @@
 package com.grzegorz.rychlik.backend.model.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -13,7 +10,10 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(indexes = @Index(name="idx_userId_horseId_contestId", columnList = "user_id,horse_id,contest_id", unique = true))
+@Table(indexes = {
+        @Index(name="idx_userId_horseId_contestId", columnList = "user_id,horse_id,contest_id", unique = true),
+        @Index(name="idx_userId_competitionId", columnList = "user_id,competition_id", unique = true)
+})
 public class Participant {
 
     @Id
@@ -21,14 +21,26 @@ public class Participant {
     private Long id;
 
     @ManyToOne
+    @ToString.Exclude
     private User user;
 
     @ManyToOne
+    @ToString.Exclude
     private Horse horse;
 
     @ManyToOne
+    @ToString.Exclude
     private  Contest contest;
+
+    @ManyToOne
+    @ToString.Exclude
+    private  Competition competition;
 
     private Integer points;
     private LocalTime roundTime;
+    private int orderNumber;
+
+    @ManyToOne
+    @ToString.Exclude
+    private Cycle cycle;
 }

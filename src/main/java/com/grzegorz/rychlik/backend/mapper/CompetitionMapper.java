@@ -6,6 +6,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = UserMapper.class)
 public interface CompetitionMapper {
 
@@ -15,4 +17,5 @@ public interface CompetitionMapper {
     @Mapping(target = "organizer.password", ignore = true)
     CompetitionDto toDto(Competition competition);
     Competition toDao(CompetitionDto competitionDto);
+    List<CompetitionDto> toListDto(List<Competition> competition);
 }

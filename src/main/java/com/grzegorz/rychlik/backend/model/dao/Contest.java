@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -21,6 +22,9 @@ public class Contest {
     private String name;
     private int height;
     private int amountObstacles;
+    private LocalTime start;
+    private boolean finished;
+    private boolean counted;
 
     //@OneToMany(mappedBy = "contest", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     //private List<Participant> participants;

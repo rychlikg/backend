@@ -25,4 +25,6 @@ public class CompetitionDto {
     private  UserDto organizer;
 
     private String description;
+
+    private Long cycleId;
 }

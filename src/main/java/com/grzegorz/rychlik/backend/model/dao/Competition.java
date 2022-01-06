@@ -33,5 +33,8 @@ public class Competition {
 
     private String description;
 
+    @ManyToOne
+    private Cycle cycle;
+
 
 }

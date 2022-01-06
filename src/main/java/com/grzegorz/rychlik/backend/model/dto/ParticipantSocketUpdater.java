@@ -16,4 +16,5 @@ public class ParticipantSocketUpdater {
     private Integer points;
     private String time;
     private Long horseId;
+    private Integer orderNumber;
 }

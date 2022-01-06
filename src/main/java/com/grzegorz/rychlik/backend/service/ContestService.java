@@ -5,6 +5,7 @@ import com.grzegorz.rychlik.backend.repository.ContestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,20 @@ public class ContestService {
 
     public Contest getById(Long id){
         return contestRepository.getById(id);
+    }
+
+    @Transactional
+    public void setContestTime(Contest contest){
+        Contest contestDb = getById(contest.getId());
+        contestDb.setStart(contest.getStart());
+
+    }
+
+    @Transactional
+    public void setFinished(Contest contest){
+        Contest contestDb = getById(contest.getId());
+        contestDb.setFinished(contest.isFinished());
+
     }
 
 
