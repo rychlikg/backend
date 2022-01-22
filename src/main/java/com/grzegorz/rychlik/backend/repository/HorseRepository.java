@@ -11,4 +11,6 @@ public interface HorseRepository extends JpaRepository<Horse,Long> {
     List<Horse> findByUserId(Long userId);
 
    Optional<Horse> findByIdAndUserId(Long id, Long userId);
+
+    List<Horse> findTop10ByNameContains(String name);
 }

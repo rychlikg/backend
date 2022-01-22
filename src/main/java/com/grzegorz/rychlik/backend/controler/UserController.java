@@ -64,4 +64,9 @@ public class UserController {
     public UserDto getUserById(@PathVariable Long id) {
         return userMapper.toDto(userService.getById(id));
     }
+
+    @PatchMapping("/activate")
+    public void activateUser(@RequestParam String activatedToken){
+        userService.activateUser(activatedToken);
+    }
 }

@@ -25,7 +25,7 @@ public class ContestScheduler {
                 .collect(Collectors.groupingBy(participant -> participant.getContest().getId()));
         Map<Long, Participant> participantMap = new HashMap<>();
         participantByContestId.forEach((key, value) -> {
-            value.sort(Comparator.comparing(Participant::getPoints).reversed().thenComparing(Participant::getRoundTime).reversed());
+            value.sort(Comparator.comparing(Participant::getPoints).thenComparing(Participant::getRoundTime));
             Integer points = 10;
             for (Participant participant : value) {
                 Participant cycleParticipant = participantMap.get(participant.getUser().getId());

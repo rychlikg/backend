@@ -1,15 +1,14 @@
 package com.grzegorz.rychlik.backend.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grzegorz.rychlik.backend.model.dto.ErrorDto;
 import com.grzegorz.rychlik.backend.model.dto.LoginDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,5 +55,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, "Sekretny Klucz").compact();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         objectMapper.writeValue(response.getWriter(), Collections.singletonMap("token",token));
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        if (failed instanceof LockedException) {
+            response.setStatus(401);
+            objectMapper.writeValue(response.getWriter(),new ErrorDto("Aktywuj swoje konto"));
+            return;
+        } else if(failed instanceof BadCredentialsException){
+            response.setStatus(401);
+            objectMapper.writeValue(response.getWriter(),new ErrorDto("Błendne dane do logowania"));
+            return;
+        }
+        super.unsuccessfulAuthentication(request, response, failed);
     }
 }

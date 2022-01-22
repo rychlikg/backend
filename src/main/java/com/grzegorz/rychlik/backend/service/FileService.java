@@ -2,6 +2,7 @@ package com.grzegorz.rychlik.backend.service;
 
 import com.grzegorz.rychlik.backend.model.dao.Competition;
 import com.grzegorz.rychlik.backend.model.dao.Contest;
+import com.grzegorz.rychlik.backend.model.dao.Cycle;
 import com.grzegorz.rychlik.backend.model.dao.Participant;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -10,6 +11,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,7 @@ import java.util.List;
 public class FileService {
     private final ParticipantService participantService;
     private final ContestService contestService;
+    private final CycleService cycleService;
 
     public byte[] generateCompetitionResults(Long contestId){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -79,5 +82,40 @@ public class FileService {
         document.close();
         return byteArrayOutputStream.toByteArray();
 
+    }
+
+    public byte[] generateCycleRanking(Long cycleId){
+        Cycle cycle = cycleService.getById(cycleId);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document(new PdfDocument(new PdfWriter(byteArrayOutputStream)));
+
+        Paragraph paragraph = new Paragraph();
+        paragraph.add("Cykl: " + cycle.getName());
+        document.add(paragraph);
+
+        Paragraph paragraph2 = new Paragraph();
+        paragraph2.add("Data: " + LocalDate.now());
+        document.add(paragraph2);
+
+        Table table = new Table(3);
+        table.setWidth(new UnitValue(2,100));
+        table.addHeaderCell("Miejsce");
+        table.addHeaderCell("Imie i nazwisko");
+        table.addHeaderCell("Punkty");
+
+        List<Participant> participants = participantService.getByCycleId(cycleId);
+
+        int place = 1;
+
+        for (Participant participant : participants) {
+            table.addCell(Integer.toString(place));
+            table.addCell(participant.getUser().getFirstName()+" "+participant.getUser().getLastName());
+            table.addCell(participant.getPoints().toString());
+            place++;
+        }
+        document.add(table);
+        document.close();
+        return byteArrayOutputStream.toByteArray();
     }
 }

@@ -7,6 +7,7 @@ import com.grzegorz.rychlik.backend.repository.UserRepository;
 import com.grzegorz.rychlik.backend.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +31,17 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final FilePropertiesConfig filePropertiesConfig;
+    private final MailService mailService;
+    @Value("${url.server}")
+    private String serviceUrl;
 
     @SneakyThrows
     public User save(User user, List<String> roles, MultipartFile img) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findByNameIn(roles));
+        user.setActivatedToken(UUID.randomUUID().toString());
         userRepository.save(user);
+        mailService.sendEmail(Collections.singletonMap("link", serviceUrl + "/activate?token=" + user.getActivatedToken()), "confirmationRegistration", user.getEmail());
         if (img != null) {
             String fileName = user.getId() + ".png";
             Path path = Paths.get(filePropertiesConfig.getLogo(), fileName);
@@ -88,5 +95,14 @@ public class UserService {
 
     public User getById(Long id) {
         return userRepository.getById(id);
+    }
+
+    @Transactional
+    public void activateUser(String activatedToken){
+        userRepository.findByActivatedToken(activatedToken).ifPresent(user -> user.setActivatedToken(null));
+    }
+
+    public List<User> findByFirstNameOrLastName (String name){
+        return userRepository.findTop10ByFirstNameContainsOrLastNameContains(name,name);
     }
 }

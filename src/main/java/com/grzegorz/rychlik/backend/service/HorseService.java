@@ -4,8 +4,6 @@ import com.grzegorz.rychlik.backend.model.dao.Horse;
 import com.grzegorz.rychlik.backend.model.dao.User;
 import com.grzegorz.rychlik.backend.repository.HorseRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,5 +51,7 @@ public class HorseService {
     public Horse getById(Long id){
         return horseRepository.getById(id);
     }
+
+    public List<Horse> findByName(String name){return horseRepository.findTop10ByNameContains(name);}
 
 }

@@ -17,4 +17,6 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
     Page<Competition> findByUserEmail(String currentUserEmail, Pageable pageable);
 
     List<Competition> findByCycleId(Long cycleId);
+
+    List<Competition> findTop10ByNameContains(String name);
 }

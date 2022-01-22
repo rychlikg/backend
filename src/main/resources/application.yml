@@ -9,6 +9,20 @@ spring:
   flyway:
     baselineOnMigrate: true
     enabled: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 238051pwr@gmail.com
+    password: Haslo_11
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            requiered: true
+        transport:
+          protocol: smtp
 
 file:
   logo: ${IMG_PATH:D:\pracadyplomowa\praca-front\src\assets}

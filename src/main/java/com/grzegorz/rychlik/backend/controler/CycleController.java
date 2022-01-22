@@ -32,4 +32,11 @@ public class CycleController {
     public Page<CycleDto> getCyclePage(@RequestParam int page, @RequestParam int size){
         return cycleService.getPage(PageRequest.of(page,size)).map(cycleMapper :: toDto);
     }
+
+    @GetMapping("/{id}")
+    public CycleDto getCycleById(@PathVariable Long id){
+        return cycleMapper.toDto(cycleService.getById(id));
+    }
+
+
 }

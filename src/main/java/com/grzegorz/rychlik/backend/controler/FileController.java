@@ -26,4 +26,15 @@ public class FileController {
         return ResponseEntity.ok().headers(httpHeaders).body(bytes);
 
     }
+
+    @GetMapping(value = "/cycle/{cycleId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> downloadCycleFile(@PathVariable Long cycleId){
+        byte[] bytes = fileService.generateCycleRanking(cycleId);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
+        httpHeaders.add(HttpHeaders.CONTENT_LENGTH, Integer.toString(bytes.length));
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=wyniki.pdf");
+        return ResponseEntity.ok().headers(httpHeaders).body(bytes);
+
+    }
 }

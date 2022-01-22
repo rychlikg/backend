@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +76,10 @@ public class CompetitionService {
 
     public List<Competition> getByCycleId(Long cycleId){
         return  competitionRepository.findByCycleId(cycleId);
+    }
+
+    public List<Competition> findByCompetitionName(String name){
+        return competitionRepository.findTop10ByNameContains(name);
     }
 
 }
