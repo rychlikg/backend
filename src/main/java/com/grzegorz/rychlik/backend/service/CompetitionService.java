@@ -10,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,6 +83,20 @@ public class CompetitionService {
 
     public List<Competition> findByCompetitionName(String name){
         return competitionRepository.findTop10ByNameContains(name);
+    }
+
+    public  List<Competition> getCompetitionFromCurrentWeek(){
+        //LocalDate monday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
+
+        return competitionRepository.findByStartDateBetweenOrStartDate(LocalDate.now(),sunday,LocalDate.now());
+    }
+
+    public  List<Competition> getPreviousCompetitions(){
+        //LocalDate monday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
+
+        return competitionRepository.findByStartDateBeforeOrStartDate(LocalDate.now(),LocalDate.now());
     }
 
 }

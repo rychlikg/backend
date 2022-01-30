@@ -19,6 +19,12 @@ public class Horse {
     private String name;
     private String passport;
     private int age;
+    private String country;
+    private String race;
+    private String gender;
+    private String breeder;
+    private String imgPath;
+
     @ManyToOne
     private User user;
 

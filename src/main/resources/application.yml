@@ -26,5 +26,6 @@ spring:
 
 file:
   logo: ${IMG_PATH:D:\pracadyplomowa\praca-front\src\assets}
+  horse: ${IMG_PATH:D:\pracadyplomowa\praca-front\src\assets}
 url:
   server: ${URL_SERVER:http://localhost:4200}

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class HorseController {
     private final HorseService horseService;
 
     @PostMapping
-    public HorseDto saveHorse(@RequestBody HorseDto horse) {
-        return horseMapper.toDto(horseService.saveHorse(horseMapper.toDao(horse)));
+    public HorseDto saveHorse(@RequestPart HorseDto horse,@RequestPart(required = false) MultipartFile img) {
+        return horseMapper.toDto(horseService.saveHorse(horseMapper.toDao(horse),img));
     }
 
     @PutMapping("/{id}")

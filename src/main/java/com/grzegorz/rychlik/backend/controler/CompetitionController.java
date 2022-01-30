@@ -51,4 +51,9 @@ public class CompetitionController {
     public List<CompetitionDto> getCompetitionByCycleId(@PathVariable Long cycleId){
         return competitionMapper.toListDto(competitionService.getByCycleId(cycleId));
     }
+
+    @GetMapping("/current-week")
+    public List<CompetitionDto> getCompetitionCurrentWeek(){
+        return competitionMapper.toListDto(competitionService.getCompetitionFromCurrentWeek());
+    }
 }

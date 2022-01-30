@@ -1,6 +1,7 @@
 package com.grzegorz.rychlik.backend.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.grzegorz.rychlik.backend.model.HorseGender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,9 @@ public class HorseDto {
     private String name;
     private String passport;
     private int age;
+    private String country;
+    private String race;
+    private HorseGender gender;
+    private String breeder;
+    private String imgPath;
 }

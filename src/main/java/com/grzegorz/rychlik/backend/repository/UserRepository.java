@@ -13,6 +13,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Page<User> findByRoles_Name(String roleName, Pageable pageable);
     Optional<User> findByEmailAndActivatedTokenIsNull(String email);
     Optional<User> findByActivatedToken(String token);
-
     List<User> findTop10ByFirstNameContainsOrLastNameContains(String name, String name1);
 }

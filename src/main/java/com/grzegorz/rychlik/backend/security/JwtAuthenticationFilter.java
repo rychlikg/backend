@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             return;
         } else if(failed instanceof BadCredentialsException){
             response.setStatus(401);
-            objectMapper.writeValue(response.getWriter(),new ErrorDto("Błendne dane do logowania"));
+            objectMapper.writeValue(response.getWriter(),new ErrorDto("Blendne dane do logowania"));
             return;
         }
         super.unsuccessfulAuthentication(request, response, failed);
