@@ -47,6 +47,8 @@ public class UserService {
             Path path = Paths.get(filePropertiesConfig.getLogo(), fileName);
             Files.copy(img.getInputStream(), path);
             user.setImgPath("/image/" + fileName);
+        } else {
+            user.setImgPath("/image/" + "defaultImg.png");
         }
         return userRepository.save(user);
     }

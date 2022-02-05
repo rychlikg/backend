@@ -25,8 +25,8 @@ public class HorseController {
     }
 
     @PutMapping("/{id}")
-    public HorseDto updateHorse(@RequestBody HorseDto horse, @PathVariable Long id) {
-        return horseMapper.toDto(horseService.updateHorse(horseMapper.toDao(horse), id));
+    public HorseDto updateHorse(@RequestPart HorseDto horse, @PathVariable Long id,@RequestPart(required = false) MultipartFile img) {
+        return horseMapper.toDto(horseService.updateHorse(horseMapper.toDao(horse), id,img));
     }
 
     @DeleteMapping("/{id}")

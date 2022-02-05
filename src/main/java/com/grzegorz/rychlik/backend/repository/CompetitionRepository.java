@@ -15,6 +15,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
 
     List<Competition> findByStartDateBetweenOrStartDate(LocalDate start, LocalDate end,LocalDate startDate);
     List<Competition> findByStartDateBeforeOrStartDate(LocalDate before,LocalDate startDate);
+    Page<Competition> findByStartDateAfter(LocalDate after, Pageable pageable);
 
     Page<Competition> findByUserEmail(String currentUserEmail, Pageable pageable);
 

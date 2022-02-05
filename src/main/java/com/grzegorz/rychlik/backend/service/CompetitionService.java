@@ -87,16 +87,22 @@ public class CompetitionService {
 
     public  List<Competition> getCompetitionFromCurrentWeek(){
         //LocalDate monday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
+        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+        System.out.println(sunday);
+        System.out.println(LocalDate.now());
 
         return competitionRepository.findByStartDateBetweenOrStartDate(LocalDate.now(),sunday,LocalDate.now());
+
     }
 
     public  List<Competition> getPreviousCompetitions(){
-        //LocalDate monday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
-
         return competitionRepository.findByStartDateBeforeOrStartDate(LocalDate.now(),LocalDate.now());
     }
+    public  Page<Competition> getAfterCompetitions(Pageable pageable) {
+        LocalDate sunday = LocalDate.now().with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        //System.out.println(sunday);
 
+        return competitionRepository.findByStartDateAfter(sunday,pageable);
+    }
 }

@@ -56,4 +56,11 @@ public class CompetitionController {
     public List<CompetitionDto> getCompetitionCurrentWeek(){
         return competitionMapper.toListDto(competitionService.getCompetitionFromCurrentWeek());
     }
+
+    @GetMapping("/next-weeks")
+    public Page<CompetitionDto> getCompetitionNextWeeks(@RequestParam int page, @RequestParam int size){
+
+        return competitionService.getAfterCompetitions(PageRequest.of(page, size)).map(competitionMapper::toDto);
+//        return competitionMapper.toListDto(competitionService.getAfterCompetitions());
+    }
 }

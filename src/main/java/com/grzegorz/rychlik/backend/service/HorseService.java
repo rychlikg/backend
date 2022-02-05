@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
@@ -41,7 +42,8 @@ public class HorseService {
     }
 
     @Transactional
-    public Horse updateHorse(Horse horse, Long horseId) {
+    @SneakyThrows
+    public Horse updateHorse(Horse horse, Long horseId, MultipartFile img) {
         Horse horseDb = horseRepository.getById(horseId);
         horseDb.setName(horse.getName());
         horseDb.setAge(horse.getAge());
@@ -50,6 +52,13 @@ public class HorseService {
         horseDb.setRace(horse.getRace());
         horseDb.setCountry(horse.getCountry());
         horseDb.setGender(horse.getGender());
+        if(img != null){
+            String fileName = "horse" + horseId + ".png";
+            Path path = Paths.get(filePropertiesConfig.getHorse(), fileName);
+            Files.copy(img.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            horseDb.setImgPath("/image/" + fileName);
+        }
+
         return horseDb;
     }
 
